@@ -319,7 +319,9 @@
         });
 
         axios.get('/api/roles').then(response=>this.allRoles=response.data.data);
-        axios.get('/api/permissions').then(response=>this.allPermissions=response.data.data);
+        axios.get('/api/permissions')
+        .then( response=>this.allPermissions=response.data.data )
+        .catch( error => console.log(error.response) );
 
       },
 
@@ -333,7 +335,9 @@
         if(confirm('Are you sure you want to delete this?')){
           this.editedIndex = this.tableData.indexOf(item)
           this.tableData.splice(this.editedIndex, 1)
-          axios.delete('/api/users/'+item.id).then(response=>console.log(response.data))
+          axios.delete('/api/users/'+item.id)
+          .then( response=>console.log(response.data) )
+          .catch( error => console.log(error.response) );
         }
       },
 
@@ -349,11 +353,16 @@
         if (this.editedIndex > -1) {
           Object.assign(this.tableData[this.editedIndex], this.editedItem)
           // update item
-          axios.put('/api/users/'+this.editedItem.id,this.editedItem).then(response=>console.log(response.data));
+          axios.put('/api/users/'+this.editedItem.id,this.editedItem)
+          .then( response=> console.log(response.data) )
+          .catch( error => console.log(error.response) );
+
         } else {
           this.tableData.push(this.editedItem)
           // create new item
-          axios.post('/api/users/',this.editedItem).then(response=>console.log(response.data));
+          axios.post('/api/users/',this.editedItem)
+          .then( response=> console.log(response.data) )
+          .catch( error => console.log(error.response) );
         }
         this.close()
       },

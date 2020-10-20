@@ -28,9 +28,11 @@
 
     <script>
         window.user = @json(
-        [
-            'user'=> auth()->user(),
-        ]
+            [
+                'user'=> auth()->user()->load('notifications'),
+                'roles'=> auth()->user()->roles,
+                'permissions'=> auth()->user()->getAllPermissions()
+            ]
         );
     </script>
 </body>

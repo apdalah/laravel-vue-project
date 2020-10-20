@@ -5,7 +5,10 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
+use App\Notifications\UserRegistered;
 
 class User extends Authenticatable
 {
@@ -41,5 +44,18 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function($model){
+            $getAllSuperAdminsExceptAuthenticated = User::where('id', '!=', Auth::id())->get();
+            $superAdmins = $getAllSuperAdminsExceptAuthenticated->filter(function($user) {
+                return $user->hasRole('super_admin');
+            });
+
+            Notification::send($superAdmins, new UserRegistered($model));
+        });
     }
 }

@@ -18,7 +18,14 @@ import '@mdi/font/css/materialdesignicons.css'
 
 import Routes from './router'; // path to router export
 
-// import App from './components/AdminComponent.vue'
+
+// import authentication file
+import Auth from './auth';
+
+// create an instance from Auth class
+Vue.prototype.$auth = new Auth(window.user);
+
+console.log('User', window.user);
 
 
 /**

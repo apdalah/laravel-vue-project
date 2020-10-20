@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\UserRegistered;
 
 class RegisterController extends Controller
 {
@@ -64,10 +66,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => $data['password']
+            // 'password' => Hash::make($data['password']),
         ]);
+
+        $superAdmins = User::all()->filter(function($user) {
+            return $user->hasRole('super_admin');
+        });
+
+        Notification::send($superAdmins, new UserRegistered($user));
+
+        return $user;
     }
 }
