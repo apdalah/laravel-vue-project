@@ -105,11 +105,14 @@ export default {
                 title   : 'Dashboard',
                 icon   : 'mdi-view-dashboard',
                 path     : '/admin/dashboard',
+                permission : '',
             },
             {
                 title     : 'Users Manegment',
                 action: mdiAccountCog,
                 active: false,
+                // permission : $auth.isAdmin(),
+                permission : '',
                 subLinks : [
                     {
                         title : 'Users',
@@ -132,11 +135,13 @@ export default {
                 title   : 'Activities',
                 icon   : mdiTicket,
                 path     : '/admin/activities',
+                permission : '',
             },
             {
                 title   : 'Settings',
                 icon   : mdiCogTransferOutline,
                 path     : '/admin/settings',
+                permission : '',
             },
         ],
 

@@ -2,10 +2,11 @@
   <div id="app">
     <v-app id="inspire" dark>
       <v-navigation-drawer v-model="drawer" clipped fixed  app width="270">
+        
         <sidebar></sidebar>
-      </v-navigation-drawer>
+        </v-navigation-drawer>
 
-      <navbar>
+      <navbar :user="user">
         <template v-slot:toggleButton>
           <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         </template>
@@ -21,14 +22,6 @@
     </v-app>
   </div>
 </template>
-
-
-    
-
-    <v-main>
-      <!--  -->
-    </v-main>
-
 
 
 <script>

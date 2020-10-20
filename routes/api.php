@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('users', 'Api\Admin\UserController');
-Route::apiResource('roles', 'Api\Admin\RoleController');
-Route::apiResource('permissions', 'Api\Admin\PermissionController');
+// Route::middleware('auth:api')->group(function(){
+    Route::apiResource('users', 'Api\Admin\UserController');
+    Route::apiResource('roles', 'Api\Admin\RoleController');
+    Route::apiResource('permissions', 'Api\Admin\PermissionController');
+// });

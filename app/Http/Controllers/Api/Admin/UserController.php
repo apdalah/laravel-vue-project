@@ -37,11 +37,11 @@ class UserController extends Controller
          $user= User::create($data);
  
  
-         if ($request->has('role')) {
+         if ($request->has('role') && sizeof($request->role) > 0) {
              $user->assignRole($request->role['name']);
          }
  
-         if ($request->has('permissions')) {
+         if ($request->has('permissions') && sizeof($request->permissions) > 0) {
              $user->givePermissionTo(collect($request->permissions)->pluck('id')->toArray());
          }
  
@@ -86,8 +86,12 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        return User::destroy($id);
+        $user->revokePermissionTo($user->getPermissionNames());
+        if($user->roles->first()){
+            $user->removeRole($user->roles->first()->name);
+        }
+        return $user->delete();
     }
 }
